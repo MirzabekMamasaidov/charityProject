@@ -23,18 +23,22 @@ public class AuthController {
 
     @Autowired
     AuthenticationManager authenticationManager;
-
     @Autowired
     AuthService authService;
 
     @Autowired
     JwtProvider jwtProvider;
 
+    public AuthController(AuthenticationManager authenticationManager, AuthService authService, JwtProvider jwtProvider) {
+        this.authenticationManager = authenticationManager;
+        this.authService = authService;
+        this.jwtProvider = jwtProvider;
+    }
     @Autowired
 
     @PostMapping("/login")
-    public HttpEntity<?> login(@RequestBody LoginDto loginDto){
-        ApiResponse response = authService.login(loginDto);
+    public HttpEntity<?> login(@RequestBody LoginDto dto){
+        ApiResponse response = authService.login(dto);
         return ResponseEntity.status(response.isSuccess()?200:401).body(response);
     }
     @GetMapping("/me")

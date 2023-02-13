@@ -15,7 +15,7 @@ public class JwtProvider {
     //@Value("${jwt.expireTime}")
     private final long expire = 86400000;
 
-    public String generateToken(String username, Set<Role> roles) {
+    public String generateToken(String username) {
         return Jwts.builder()
                 .signWith(SignatureAlgorithm.HS512,secretKey)
                 .setSubject(username)

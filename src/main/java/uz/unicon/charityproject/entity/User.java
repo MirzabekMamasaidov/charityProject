@@ -22,7 +22,7 @@ import java.util.Set;
 @Entity(name = "users")
 public class User  extends AbsNameEntity  implements UserDetails {
 
-    private String userName;//tizimga kirish uchun username
+    private String username;//tizimga kirish uchun username
 
     private String password;//tizimga kirish uchun parol
 
@@ -71,10 +71,6 @@ public class User  extends AbsNameEntity  implements UserDetails {
         return this.roles;
     }
 
-    @Override
-    public String getUsername() {
-        return this.userName;
-    }
 
     @Override
     public boolean isAccountNonExpired() {
