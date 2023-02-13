@@ -1,14 +1,14 @@
 package uz.unicon.charityproject.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import uz.unicon.charityproject.entity.template.AbsNameEntity;
 
 import javax.persistence.Entity;
 
 //bolalar
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity

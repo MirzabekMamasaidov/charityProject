@@ -27,7 +27,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-//        token = token.substring(7);
+       token = token.substring(7);
         //validate expired kimga tegishli
         if (jwtProvider.validateToken(token)) {
             if (jwtProvider.expireToken(token)) {

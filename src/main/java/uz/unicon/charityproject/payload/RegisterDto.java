@@ -1,13 +1,14 @@
 package uz.unicon.charityproject.payload;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+
 public class RegisterDto {
 
     private String numberOrEmail;

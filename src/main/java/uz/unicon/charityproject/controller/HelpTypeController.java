@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.unicon.charityproject.entity.HelpType;
 import uz.unicon.charityproject.payload.ApiResponse;
@@ -24,31 +25,37 @@ public class HelpTypeController {
         this.helpTypeService = helpTypeService;
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
     @PostMapping()
     public HttpEntity<?> add(@RequestBody HelpTypeDto helpTypeDto){
         ApiResponse response = helpTypeService.add(helpTypeDto);
         return ResponseEntity.status(response.isSuccess()? HttpStatus.OK:HttpStatus.NO_CONTENT).body(response);
     }
 
+   @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
     @GetMapping
     public HttpEntity<?> getAll(){
         ApiResponse all = helpTypeService.getAll();
         return ResponseEntity.status(all.isSuccess()?HttpStatus.OK:HttpStatus.NO_CONTENT).body(all);
     }
 
-    @GetMapping("/{id}")
+
+   @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+   @GetMapping("/{id}")
     public HttpEntity<?> get(@PathVariable Integer id){
 
         ApiResponse response = helpTypeService.get(id);
         return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NO_CONTENT).body(response);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
     @PutMapping("/{id}")
     public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody HelpTypeDto helpTypeDto){
         ApiResponse response = helpTypeService.edit(id, helpTypeDto);
         return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
     }
 
+    @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN')")
     @DeleteMapping("/{id}")
     public HttpEntity<?> delete(@PathVariable Integer id){
         ApiResponse response = helpTypeService.delete(id);
