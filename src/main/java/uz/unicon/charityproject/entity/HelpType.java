@@ -15,4 +15,8 @@ import javax.persistence.Entity;
 @Entity
 public class HelpType extends AbsNameEntity {
 
+    private String name;
+
+    private boolean isActive;
+
 }

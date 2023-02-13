@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-public class LoginDTO {
-    private String userName;
-    private String password;
+public class HelpTypeDto {
+
+    private String name;
 }

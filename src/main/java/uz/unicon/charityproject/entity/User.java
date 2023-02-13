@@ -8,7 +8,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import uz.unicon.charityproject.entity.template.AbsNameEntity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 //qarovchi kishi
 @Data
@@ -17,37 +21,49 @@ import java.util.Collection;
 @Entity(name = "users")
 public class User  extends AbsNameEntity  implements UserDetails {
 
-private String userName;//tizimga kirish uchun username
+    private String userName;//tizimga kirish uchun username
 
-private String password;//tizimga kirish uchun parol
+    private String password;//tizimga kirish uchun parol
 
-private String breadWinner; //qarovchi(ona, buvi)
+    private String breadWinner; //qarovchi(ona, buvi)
 
-private String birthOfYear; //tugilgan yili
+    private String birthOfYear; //tugilgan yili
 
-private String idNumber; //JSHSHIR(PINFL)
+    private String idNumber; //JSHSHIR(PINFL)
 
-private String phone; //telefon raqami
+    private String phone; //telefon raqami
 
-private String email; //elektron pochta
+    private String email; //elektron pochta
 
-private String region; //viloyat
+    private String region; //viloyat
 
-private String county; //tuman
+    private String county; //tuman
 
-private String address; //adres(mahalla, uy)
+    private String address; //adres(mahalla, uy)
 
-private String location; //lokatsiya(https://maps.google.com/maps?q=40.29,69.184005&ll=40.298244,69)
+    private String location; //lokatsiya(https://maps.google.com/maps?q=40.29,69.184005&ll=40.298244,69)
 
-private String prayer; //ro'mol/ibodat
+    private String prayer; //ro'mol/ibodat
 
-private String documentOfDeath; //er o'lim hujjati
+    private String documentOfDeath; //er o'lim hujjati
 
-private Boolean deed;//dalolatnoma(bor, yo'q)
+    private Boolean deed;//dalolatnoma(bor, yo'q)
 
-private Integer numberOfChild; //bolalari soni
+    private Integer numberOfChild; //bolalari soni
 
-private String otherInformation; //boshqa ma'lumotlar
+    private String otherInformation; //boshqa ma'lumotlar
+
+    private Boolean isOrganization; //tashkilot yoki yoqligini bilish uchun
+
+
+    @OneToMany
+    private List<Children> children;
+
+    @ManyToMany
+    private List<HelpType> helpTypes;
+
+    @ManyToMany
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
