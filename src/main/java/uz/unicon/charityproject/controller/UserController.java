@@ -4,9 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import uz.unicon.charityproject.entity.User;
 import uz.unicon.charityproject.payload.ApiResponse;
 import uz.unicon.charityproject.payload.UserDto;
+import uz.unicon.charityproject.security.CurrentUser;
 import uz.unicon.charityproject.service.UserService;
 
 @RestController
@@ -42,5 +45,11 @@ public class UserController {
     }
 
 
+    @PostMapping("/addUser")
+    @PreAuthorize(value = "hasAnyRole('MODERATOR', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
+    public HttpEntity<?>  addUser(@CurrentUser User currentUser, @RequestBody UserDto userDto){
+     ApiResponse response = userService.addUser(currentUser, userDto);
+        return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
+    }
 
 }

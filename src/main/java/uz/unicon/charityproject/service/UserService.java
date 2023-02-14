@@ -4,6 +4,7 @@ package uz.unicon.charityproject.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import uz.unicon.charityproject.entity.Organization;
 import uz.unicon.charityproject.entity.User;
 import uz.unicon.charityproject.entity.enums.RoleName;
 import uz.unicon.charityproject.payload.ApiResponse;
@@ -124,5 +125,38 @@ public class UserService {
         user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
 
         return null;
+    }
+
+    public ApiResponse addUser(User currentUser, UserDto userDto) {
+        Optional<User> byUsername = userRepository.findByUsername(userDto.getUsername());
+        if (byUsername.isEmpty()) {
+
+
+            User user = new User();
+
+            user.setUsername(userDto.getUsername());
+            user.setPassword(userDto.getPassword());
+            user.setBreadWinner(userDto.getBreadWinner());
+            user.setBirthOfYear(userDto.getBirthOfYear());
+            user.setIdNumber(userDto.getIdNumber());
+            user.setPhone(userDto.getPhone());
+            user.setEmail(userDto.getEmail());
+            user.setRegion(userDto.getRegion());
+            user.setCounty(userDto.getCounty());
+            user.setAddress(userDto.getAddress());
+            user.setLocation(userDto.getLocation());
+            user.setPrayer(userDto.getPrayer());
+            user.setDocumentOfDeath(userDto.getDocumentOfDeath());
+            user.setDeed(userDto.getDeed());
+            user.setNumberOfChild(userDto.getNumberOfChild());
+            user.setOtherInformation(userDto.getOtherInformation());
+            user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
+             user.setOrganizationId(currentUser.getOrganizationId());
+            User savedUser = userRepository.save(user);
+            return new ApiResponse("Muvaffaqiyatli qo'shildi",true,savedUser);
+
+        }
+        else
+            return new ApiResponse("Muvaffaqiyatli qo'shilmadi",false);
     }
 }
