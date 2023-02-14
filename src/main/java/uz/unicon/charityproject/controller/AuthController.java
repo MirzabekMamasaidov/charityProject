@@ -34,7 +34,6 @@ public class AuthController {
         this.authService = authService;
         this.jwtProvider = jwtProvider;
     }
-    @Autowired
 
     @PostMapping("/login")
     public HttpEntity<?> login(@RequestBody LoginDto dto){

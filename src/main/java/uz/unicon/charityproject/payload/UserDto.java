@@ -1,6 +1,11 @@
 package uz.unicon.charityproject.payload;
 
 import lombok.*;
+import uz.unicon.charityproject.entity.Children;
+import uz.unicon.charityproject.entity.HelpType;
+import uz.unicon.charityproject.entity.Role;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -9,7 +14,7 @@ import lombok.*;
 @NoArgsConstructor
 public class UserDto {
 
-    private String userName;
+    private String username;
 
     private String password;
 
@@ -41,8 +46,16 @@ public class UserDto {
 
     private String otherInformation;
 
-    private Boolean isOrganization;
+    private Integer organizationId;
 
+    private Boolean isAdmin = false;
 
+    private Boolean isModerator = false;
+
+    private List<Children> childrenIds;
+
+    private List<HelpType> helpTypeIds;
+
+    private List<Role> roleIds;
 
 }
