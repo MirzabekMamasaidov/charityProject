@@ -7,6 +7,7 @@ import uz.unicon.charityproject.entity.template.AbsNameEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.Collection;
 import java.util.Collections;
@@ -54,7 +55,10 @@ public class User  extends AbsNameEntity  implements UserDetails {
 
     private String otherInformation; //boshqa ma'lumotlar
 
-    private Boolean isOrganization; //tashkilot yoki yoqligini bilish uchun
+    private Boolean isAdmin;//admin yoki yo'qligini bilish uchun
+
+    private Boolean isModerator;//moderator yoki yoqligini bilish uchun
+
 
 
     @OneToMany
@@ -65,6 +69,9 @@ public class User  extends AbsNameEntity  implements UserDetails {
 
     @ManyToMany
     private Set<Role> roles;
+
+    @ManyToOne
+    private Organization organizationId;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

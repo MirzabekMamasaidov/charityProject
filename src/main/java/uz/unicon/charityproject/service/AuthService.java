@@ -44,9 +44,9 @@ public class AuthService implements UserDetailsService {
         user.setName(dto.getFullName());
         user.setPassword(dto.getPassword());
         user.setActive(true);
-        if (user.getIsOrganization()){
+        /*if (user.getIsOrganization()){
             user.setIsOrganization(true);
-        }
+        }*/
         userRepository.save(user);
         return new ApiResponse("Code is sent to your email. Please verify!",true);
     }
