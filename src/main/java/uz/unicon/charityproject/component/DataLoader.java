@@ -37,28 +37,31 @@ public class DataLoader implements CommandLineRunner {
             superadmin.setRoleName(RoleName.ROLE_SUPER_ADMIN);
             Role user_role = new Role();
             user_role.setRoleName(RoleName.ROLE_USER);
+            Role moderator = new Role();
+            user_role.setRoleName(RoleName.MODERATOR);
 
             roleRepository.save(admin);
             roleRepository.save(superadmin);
             roleRepository.save(user_role);
+            roleRepository.save(moderator);
 
 
 
-            User user = new User();
+          /*  User user = new User();
             user.setEmail("khodirjob@gmail.com");
             user.setRoles(Collections.singleton(user_role));
             user.setPassword(passwordEncoder.encode("1111"));
             userRepository.save(user);
+*/
 
-
-            User user1 = new User();
+            /*User user1 = new User();
             user1.setEmail("feruzbek@gmail.com");
             user1.setRoles(Collections.singleton(admin));
             user1.setPassword(passwordEncoder.encode("1111"));
-            userRepository.save(user1);
+            userRepository.save(user1);*/
 
             User user2 = new User();
-            user2.setEmail("mirzabek@gmail.com");
+            user2.setUsername("mirzabek");
             user2.setRoles(Collections.singleton(superadmin));
             user2.setPassword(passwordEncoder.encode("1111"));
             userRepository.save(user2);

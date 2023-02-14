@@ -52,11 +52,11 @@ public class AuthService implements UserDetailsService {
     }
 
     public ApiResponse login(LoginDto dto) {
-        Optional<User> byUserName = userRepository.findByUsername(dto.getUserName());
-        if (byUserName.isPresent()) {
-            User user = byUserName.get();
+        Optional<User> byUsername = userRepository.findByUsername(dto.getUsername());
+        if (byUsername.isPresent()) {
+            User user = byUsername.get();
             if (passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
-                String token = jwtProvider.generateToken(dto.getUserName());
+                String token = jwtProvider.generateToken(dto.getUsername());
                 return new ApiResponse("Succes", true, token);
             } else {
                 return new ApiResponse("Password is failed", false);

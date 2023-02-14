@@ -123,8 +123,9 @@ public class UserService {
         user.setNumberOfChild(userDto.getNumberOfChild());
         user.setOtherInformation(userDto.getOtherInformation());
         user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
+        User editedUser = userRepository.save(user);
 
-        return null;
+        return new ApiResponse("Muvaffaqiyatli o'zgartirildi",true,editedUser);
     }
 
     public ApiResponse addUser(User currentUser, UserDto userDto) {
@@ -151,7 +152,7 @@ public class UserService {
             user.setNumberOfChild(userDto.getNumberOfChild());
             user.setOtherInformation(userDto.getOtherInformation());
             user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
-             user.setOrganizationId(currentUser.getOrganizationId());
+            user.setOrganizationId(currentUser.getOrganizationId());
             User savedUser = userRepository.save(user);
             return new ApiResponse("Muvaffaqiyatli qo'shildi",true,savedUser);
 

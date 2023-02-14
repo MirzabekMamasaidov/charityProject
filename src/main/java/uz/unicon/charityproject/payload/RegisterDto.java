@@ -11,7 +11,6 @@ import lombok.*;
 
 public class RegisterDto {
 
-    private String numberOrEmail;
     private String fullName;
     private String username;
     private String password;
