@@ -34,11 +34,10 @@ public class AuthController {
         this.authService = authService;
         this.jwtProvider = jwtProvider;
     }
-    @Autowired
 
     @PostMapping("/login")
-    public HttpEntity<?> login(@RequestBody LoginDto dto){
-        ApiResponse response = authService.login(dto);
+    public HttpEntity<?> login(@RequestBody LoginDto loginDto){
+        ApiResponse response = authService.login(loginDto);
         return ResponseEntity.status(response.isSuccess()?200:401).body(response);
     }
     @GetMapping("/me")

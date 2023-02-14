@@ -18,35 +18,39 @@ import java.io.IOException;
 import java.util.Objects;
 
 @Component
-@RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter {
-    JwtProvider jwtProvider;
-    AuthService authService;
-
     @Autowired
-    public JwtFilter(AuthService authService, JwtProvider jwtProvider) {
-        this.authService = authService;
-        this.jwtProvider = jwtProvider;
-    }
-
+    JwtProvider jwtProvider;
+    @Autowired
+    AuthService authService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-       token = token.substring(7);
-        //validate expired kimga tegishli
+
+        if(token!= null && token.startsWith("Bearer"))
+            token = token.substring(7);
+
         if (jwtProvider.validateToken(token)) {
             if (jwtProvider.expireToken(token)) {
-                String username = jwtProvider.getUserNameFromToken(token);
-                if (username!=null){
-                UserDetails userDetails = authService.loadUserByUsername(username);
-                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities()));
-            }}
+                //username oldi tokendan
+                String userName = jwtProvider.getUserNameFromToken(token);
+                System.out.println(token);
+                System.out.println(userName);
 
+                UserDetails userDetails = authService.loadUserByUsername(userName);
+
+                UsernamePasswordAuthenticationToken user = new UsernamePasswordAuthenticationToken(userDetails,
+                        userDetails.getPassword(), userDetails.getAuthorities());
+
+                System.out.println(user);
+                //tizimga kirgan odamni security o'zi un saqlab turibti
+                SecurityContextHolder.getContext().setAuthentication(user);
+
+                System.out.println(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+            }
         }
-        System.out.println(SecurityContextHolder.getContext().getAuthentication());
-
-      doFilter(request, Objects.requireNonNull(response),filterChain);
-
+        //http zanjiri
+        doFilter(request, response, filterChain);
     }
 }

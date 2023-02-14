@@ -23,25 +23,15 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
-    UserRepository userRepository;
+    final UserRepository userRepository;
+    final PasswordEncoder passwordEncoder;
 
-    PasswordEncoder passwordEncoder;
+    final JwtProvider jwtProvider;
 
-    JwtProvider jwtProvider;
-
- //  AuthenticationManager authenticationManager;
-
-    @Autowired
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtProvider jwtProvider, AuthenticationManager authenticationManager) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtProvider = jwtProvider;
-        //this.authenticationManager = authenticationManager;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return (UserDetails) userRepository.findByUsername(username).get();
+        return userRepository.findByUsername(username).get();
     }
 
     public ApiResponse register(RegisterDto dto) {
