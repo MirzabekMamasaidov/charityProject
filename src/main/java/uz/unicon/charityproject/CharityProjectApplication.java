@@ -17,16 +17,4 @@ public class CharityProjectApplication {
         SpringApplication.run(CharityProjectApplication.class, args);
     }
 
-    @Bean
-    public CorsWebFilter corsFilter() {
-        org.springframework.web.cors.CorsConfiguration corsConfiguration = new org.springframework.web.cors.CorsConfiguration();
-        corsConfiguration.setAllowCredentials(true);
-        corsConfiguration.addAllowedOrigin("https://charityproject-production.up.railway.app/");
-        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD","PATCH"));
-        corsConfiguration.addAllowedHeader("*");
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return new CorsWebFilter(source);
-    }
-
 }
