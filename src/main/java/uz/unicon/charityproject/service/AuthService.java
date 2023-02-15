@@ -42,7 +42,7 @@ public class AuthService implements UserDetailsService {
         User user = new User();
         user.setUsername(dto.getUsername());
         user.setName(dto.getFullName());
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setActive(true);
         /*if (user.getIsOrganization()){
             user.setIsOrganization(true);

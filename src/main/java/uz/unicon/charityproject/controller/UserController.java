@@ -13,7 +13,7 @@ import uz.unicon.charityproject.security.CurrentUser;
 import uz.unicon.charityproject.service.UserService;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("users")
 public class UserController {
 
     @Autowired
