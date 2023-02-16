@@ -7,6 +7,7 @@ import uz.unicon.charityproject.payload.ApiResponse;
 import uz.unicon.charityproject.payload.OrganizationDto;
 import uz.unicon.charityproject.repository.OrganizationRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,12 @@ public class OrganizationService {
 
     public ApiResponse getAll() {
         List<Organization> organizationList = organizationRepository.findAll();
+        List<Organization> organizations = new ArrayList<>();
+        for (Organization organization : organizationList) {
+            if (organization.isActive()) {
+                organizations.add(organization);
+            }
+        }
         return new ApiResponse("Tashkilotlar ro'yhati",true,organizationList);
     }
 
