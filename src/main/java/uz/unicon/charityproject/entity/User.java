@@ -5,10 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.unicon.charityproject.entity.template.AbsNameEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -64,10 +61,10 @@ public class User  extends AbsNameEntity  implements UserDetails {
     @OneToMany
     private List<Children> children;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<HelpType> helpTypes;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @ManyToOne
