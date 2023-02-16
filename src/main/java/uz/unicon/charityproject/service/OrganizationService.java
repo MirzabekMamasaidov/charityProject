@@ -43,4 +43,25 @@ public class OrganizationService {
         Organization organization = optionalOrganization.get();
         return new ApiResponse("Tashkilot topildi",true,organization);
     }
+
+    public ApiResponse edit(Integer id, OrganizationDto organizationDto) {
+        Optional<Organization> optionalOrganization = organizationRepository.findById(id);
+        if (optionalOrganization.isEmpty()) {
+            return new ApiResponse("Tashkilot topilmadi",false);
+        }
+        Organization editingOrganization = optionalOrganization.get();
+        editingOrganization.setName(organizationDto.getName());
+        Organization editedOrganization = organizationRepository.save(editingOrganization);
+        return new ApiResponse("O'zagartirildi",true,editedOrganization);
+    }
+
+    public ApiResponse delete(Integer id) {
+        Optional<Organization> optionalOrganization = organizationRepository.findById(id);
+        if (optionalOrganization.isEmpty()) {
+            return new ApiResponse("Tashkilot topilmadi",false);
+        }
+        Organization deletedOrganization = optionalOrganization.get();
+        deletedOrganization.setActive(false);
+        return new ApiResponse("Muvaffaqiyatli o'chirildi",true);
+    }
 }
