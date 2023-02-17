@@ -85,10 +85,11 @@ public class UserService {
     public ApiResponse getAll() {
         List<User> userList = userRepository.findAll();
         List<User> citizens  = new ArrayList<>();
-        for (User user : userList) {
+        /*for (User user : userList) {
             roleRepository.findByRoleName(RoleName.ROLE_USER).get().equals(user.getRoles());
-        }
-        return new ApiResponse("Foydalanuvchilar royhati",true,citizens);
+        }*/
+        //return new ApiResponse("Foydalanuvchilar royhati",true,citizens);
+        return new ApiResponse("Foydalanuvchilar royhati",true,userList);
     }
 
     public ApiResponse getById(String id) {

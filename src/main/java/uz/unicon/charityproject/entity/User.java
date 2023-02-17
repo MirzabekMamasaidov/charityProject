@@ -1,6 +1,8 @@
 package uz.unicon.charityproject.entity;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import uz.unicon.charityproject.entity.template.AbsNameEntity;
@@ -58,7 +60,8 @@ public class User  extends AbsNameEntity  implements UserDetails {
 
 
 
-    @OneToMany
+    @OneToMany()
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Children> children;
 
     @ManyToMany(fetch = FetchType.EAGER)
@@ -67,7 +70,7 @@ public class User  extends AbsNameEntity  implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Organization organizationId;
 
     @Override

@@ -20,11 +20,12 @@ public class UserController {
     UserService userService;
 
 
+   /* @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping
     public HttpEntity<?> add(@RequestBody UserDto userDto){
         ApiResponse response = userService.add(userDto);
         return ResponseEntity.status(response.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(response);
-    }
+    }*/
 
     @GetMapping
     public HttpEntity<?> getAll(){
@@ -44,12 +45,12 @@ public class UserController {
         return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
     }
 
-
     @PostMapping("/addUser")
     @PreAuthorize(value = "hasAnyRole('MODERATOR', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
     public HttpEntity<?>  addUser(@CurrentUser User currentUser, @RequestBody UserDto userDto){
-     ApiResponse response = userService.addUser(currentUser, userDto);
+        ApiResponse response = userService.addUser(currentUser, userDto);
         return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
     }
+
 
 }
