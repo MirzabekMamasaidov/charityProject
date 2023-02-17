@@ -25,14 +25,14 @@ public class HelpTypeController {
         this.helpTypeService = helpTypeService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping()
     public HttpEntity<?> add(@RequestBody HelpTypeDto helpTypeDto){
         ApiResponse response = helpTypeService.add(helpTypeDto);
         return ResponseEntity.status(response.isSuccess()? HttpStatus.OK:HttpStatus.NO_CONTENT).body(response);
     }
 
-   @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+   @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @GetMapping
     public HttpEntity<?> getAll(){
         ApiResponse all = helpTypeService.getAll();
