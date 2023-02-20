@@ -39,6 +39,12 @@ public class UserController {
         return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NOT_FOUND).body(response);
     }
 
+    @GetMapping("user/{id}")
+    public HttpEntity<?> getUserById(@PathVariable Integer id){
+        ApiResponse response = userService.getUserById(id);
+        return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NOT_FOUND).body(response);
+    }
+
     @PutMapping("/{id}")
     public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody UserDto userDto){
         ApiResponse response = userService.edit(id, userDto);
@@ -46,7 +52,7 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    @PreAuthorize(value = "hasAnyRole('MODERATOR', 'ROLE_ADMIN', 'ROLE_SUPER_ADMIN')")
+    @PreAuthorize(value = "hasAnyRole('MODERATOR', 'ROLE_ADMIN')")
     public HttpEntity<?>  addUser(@CurrentUser User currentUser, @RequestBody UserDto userDto){
         ApiResponse response = userService.addUser(currentUser, userDto);
         return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);

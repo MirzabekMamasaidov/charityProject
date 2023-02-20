@@ -161,4 +161,14 @@ public class UserService {
         else
             return new ApiResponse("Muvaffaqiyatli qo'shilmadi",false);
     }
+
+    public ApiResponse getUserById(Integer id) {
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return new ApiResponse("Foydalanuvchi topilmadi",false);
+        }
+        User user = optionalUser.get();
+        return new ApiResponse("So'ralgan foydalanuvchi",true);
+    }
 }
