@@ -52,10 +52,10 @@ public class UserDto {
 
     private Boolean isModerator = false;
 
-    private List<Children> childrenIds;
+    private List<Integer> childrenIds;
 
-    private List<HelpType> helpTypeIds;
+    private List<Integer> helpTypeIds;
 
-    private List<Role> roleIds;
+    private List<Integer> roleIds;
 
 }

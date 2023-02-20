@@ -27,6 +27,14 @@ public class UserController {
         return ResponseEntity.status(response.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(response);
     }
 
+
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
+    @PostMapping("addHelp/{id}")
+    public HttpEntity<?> addHelpUser(@PathVariable Integer id, @RequestBody UserDto userDto){
+        ApiResponse response = userService.addHelpUser(id, userDto);
+        return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(response);
+    }
+
     @GetMapping
     public HttpEntity<?> getAll(){
         ApiResponse response = userService.getAll();
