@@ -20,12 +20,12 @@ public class UserController {
     UserService userService;
 
 
-   /* @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
     @PostMapping
     public HttpEntity<?> add(@RequestBody UserDto userDto){
         ApiResponse response = userService.add(userDto);
         return ResponseEntity.status(response.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(response);
-    }*/
+    }
 
     @GetMapping
     public HttpEntity<?> getAll(){
