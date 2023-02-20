@@ -67,7 +67,7 @@ public class User  extends AbsNameEntity  implements UserDetails {
     @ManyToMany(fetch = FetchType.EAGER)
     private List<HelpType> helpTypes;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Role> roles;
 
     @ManyToOne(fetch = FetchType.EAGER)

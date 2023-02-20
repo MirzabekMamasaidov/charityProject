@@ -6,6 +6,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import uz.unicon.charityproject.entity.HelpType;
 import uz.unicon.charityproject.entity.Organization;
+import uz.unicon.charityproject.entity.Role;
 import uz.unicon.charityproject.entity.User;
 import uz.unicon.charityproject.entity.enums.RoleName;
 import uz.unicon.charityproject.payload.ApiResponse;
@@ -49,7 +50,7 @@ public class UserService {
                 user.setUsername(user.getUsername());
                 user.setPassword(user.getPassword());
                 user.setName(user.getName());
-                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
+                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).orElse(null)));
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
@@ -57,7 +58,7 @@ public class UserService {
                 user.setUsername(user.getUsername());
                 user.setPassword(user.getPassword());
                 user.setName(user.getName());
-                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).get()));
+                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).orElse(null)));
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
@@ -78,7 +79,7 @@ public class UserService {
             user.setDeed(userDto.getDeed());
             user.setNumberOfChild(userDto.getNumberOfChild());
             user.setOtherInformation(userDto.getOtherInformation());
-            user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
+            user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).orElse(null)));
             // user.setOrganizationId();
             User savedUser = userRepository.save(user);
             return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
