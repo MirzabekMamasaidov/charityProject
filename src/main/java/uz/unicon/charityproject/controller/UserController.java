@@ -6,11 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import uz.unicon.charityproject.entity.Children;
 import uz.unicon.charityproject.entity.User;
 import uz.unicon.charityproject.payload.ApiResponse;
+import uz.unicon.charityproject.payload.ChildrenDto;
 import uz.unicon.charityproject.payload.UserDto;
 import uz.unicon.charityproject.security.CurrentUser;
 import uz.unicon.charityproject.service.UserService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("users")

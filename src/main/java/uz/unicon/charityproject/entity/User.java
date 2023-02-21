@@ -22,6 +22,7 @@ import java.util.Set;
 @Entity(name = "users")
 public class User  extends AbsNameEntity  implements UserDetails {
 
+    @Column(nullable = false, unique = true)
     private String username;//tizimga kirish uchun username
 
     private String password;//tizimga kirish uchun parol
