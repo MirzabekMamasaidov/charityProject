@@ -50,7 +50,7 @@ public class UserService {
                 user.setUsername(user.getUsername());
                 user.setPassword(user.getPassword());
                 user.setName(user.getName());
-                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).orElse(null)));
+               // user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
@@ -58,11 +58,12 @@ public class UserService {
                 user.setUsername(user.getUsername());
                 user.setPassword(user.getPassword());
                 user.setName(user.getName());
-                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).orElse(null)));
+                //user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).get()));
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
 
+            user.setName(userDto.getName());
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setBreadWinner(userDto.getBreadWinner());
@@ -79,7 +80,7 @@ public class UserService {
             user.setDeed(userDto.getDeed());
             user.setNumberOfChild(userDto.getNumberOfChild());
             user.setOtherInformation(userDto.getOtherInformation());
-            user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).orElse(null)));
+            //user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
             // user.setOrganizationId();
             User savedUser = userRepository.save(user);
             return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
