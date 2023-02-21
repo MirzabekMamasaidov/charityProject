@@ -20,7 +20,7 @@ public class UserController {
     UserService userService;
 
 
-    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @PostMapping
     public HttpEntity<?> add(@RequestBody UserDto userDto){
         ApiResponse response = userService.add(userDto);
@@ -35,24 +35,28 @@ public class UserController {
         return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.CONFLICT).body(response);
     }
 
+   @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN')")
     @GetMapping
     public HttpEntity<?> getAll(){
         ApiResponse response = userService.getAll();
         return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NOT_FOUND).body(response);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @GetMapping("/searchById/{id}")
     public HttpEntity<?> getById(@PathVariable String id){
         ApiResponse response = userService.getById(id);
         return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NOT_FOUND).body(response);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @GetMapping("user/{id}")
     public HttpEntity<?> getUserById(@PathVariable Integer id){
         ApiResponse response = userService.getUserById(id);
         return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NOT_FOUND).body(response);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @PutMapping("/{id}")
     public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody UserDto userDto){
         ApiResponse response = userService.edit(id, userDto);
