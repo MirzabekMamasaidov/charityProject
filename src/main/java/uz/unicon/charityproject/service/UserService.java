@@ -40,7 +40,7 @@ public class UserService {
     }
 
 
-    public ApiResponse add(UserDto userDto) {
+/*    public ApiResponse add(UserDto userDto) {
         Optional<User> byUsername = userRepository.findByUsername(userDto.getUsername());
         if (byUsername.isEmpty()) {
 
@@ -88,7 +88,7 @@ public class UserService {
         }
         return new ApiResponse("Bunday usernameli foydalanuvchi mavjud", false);
 
-    }
+    }*/
 
     public ApiResponse getAll() {
         List<User> userList = userRepository.findAll();
@@ -144,6 +144,24 @@ public class UserService {
 
             User user = new User();
 
+            if (userDto.getIsAdmin()) {
+                user.setUsername(user.getUsername());
+                user.setPassword(user.getPassword());
+                user.setName(user.getName());
+                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
+                User savedUser = userRepository.save(user);
+                return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
+            }
+            if (userDto.getIsModerator()) {
+                user.setUsername(user.getUsername());
+                user.setPassword(user.getPassword());
+                user.setName(user.getName());
+                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).get()));
+                User savedUser = userRepository.save(user);
+                return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
+            }
+
+
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setBreadWinner(userDto.getBreadWinner());
@@ -176,7 +194,7 @@ public class UserService {
             return new ApiResponse("Foydalanuvchi topilmadi", false);
         }
         User user = optionalUser.get();
-        return new ApiResponse("So'ralgan foydalanuvchi", true);
+        return new ApiResponse("So'ralgan foydalanuvchi", true,user);
     }
 
     public ApiResponse addHelpUser(Integer id, UserDto userDto) {

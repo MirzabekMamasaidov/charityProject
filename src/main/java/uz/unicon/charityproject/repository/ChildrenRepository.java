@@ -13,4 +13,6 @@ public interface ChildrenRepository extends JpaRepository<Children,Integer> {
 
     @Query(value = "select user from children join users_children uc on children.id = uc.children_id where children.number_certificate_of_birth = 'adasdsad'",nativeQuery = true)
     Optional<Children> getChildrenInfoByCertificateNumber(@Param("certificateNumber") String certificateNumber);
+
+
 }
