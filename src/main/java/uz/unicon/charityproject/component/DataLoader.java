@@ -38,7 +38,7 @@ public class DataLoader implements CommandLineRunner {
             Role user_role = new Role();
             user_role.setRoleName(RoleName.ROLE_USER);
             Role moderator = new Role();
-            user_role.setRoleName(RoleName.MODERATOR);
+            moderator.setRoleName(RoleName.MODERATOR);
 
             roleRepository.save(admin);
             roleRepository.save(superadmin);
@@ -60,11 +60,11 @@ public class DataLoader implements CommandLineRunner {
             user1.setPassword(passwordEncoder.encode("1111"));
             userRepository.save(user1);*/
 
-            User user2 = new User();
-            user2.setUsername("mirzabek");
-            user2.setRoles(Collections.singleton(superadmin));
-            user2.setPassword(passwordEncoder.encode("1111"));
-            userRepository.save(user2);
+//            User user2 = new User();
+//            user2.setUsername("mirzabek");
+//            user2.setRoles(Collections.singleton(superadmin));
+//            user2.setPassword(passwordEncoder.encode("1111"));
+//            userRepository.save(user2);
 
         }
     }

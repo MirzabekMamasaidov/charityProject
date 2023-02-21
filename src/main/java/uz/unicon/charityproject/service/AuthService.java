@@ -12,12 +12,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import uz.unicon.charityproject.entity.User;
+import uz.unicon.charityproject.entity.enums.RoleName;
 import uz.unicon.charityproject.payload.ApiResponse;
 import uz.unicon.charityproject.payload.LoginDto;
 import uz.unicon.charityproject.payload.RegisterDto;
+import uz.unicon.charityproject.repository.RoleRepository;
 import uz.unicon.charityproject.repository.UserRepository;
 import uz.unicon.charityproject.security.JwtProvider;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -27,6 +30,7 @@ public class AuthService implements UserDetailsService {
     final PasswordEncoder passwordEncoder;
 
     final JwtProvider jwtProvider;
+    private final RoleRepository roleRepository;
 
 
     @Override
@@ -44,6 +48,7 @@ public class AuthService implements UserDetailsService {
         user.setName(dto.getFullName());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setActive(true);
+        user.setRoles(Collections.singleton(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
         /*if (user.getIsOrganization()){
             user.setIsOrganization(true);
         }*/
