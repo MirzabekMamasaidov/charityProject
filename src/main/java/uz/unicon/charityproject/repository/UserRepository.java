@@ -19,4 +19,6 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     Optional<User> getChildrenInfoByCertificateNumber(@Param("certificateNumber") String certificateNumber);
 
 
+    @Query("select (count(u) > 0) from users u inner join u.children children where children.id = ?1")
+    Boolean existsUserByChildrenId(Integer children_id);
 }

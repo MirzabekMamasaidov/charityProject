@@ -1,16 +1,16 @@
 package uz.unicon.charityproject.service;
 
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import uz.unicon.charityproject.entity.HelpType;
-import uz.unicon.charityproject.entity.Organization;
-import uz.unicon.charityproject.entity.Role;
-import uz.unicon.charityproject.entity.User;
+import uz.unicon.charityproject.entity.*;
 import uz.unicon.charityproject.entity.enums.RoleName;
 import uz.unicon.charityproject.payload.ApiResponse;
+import uz.unicon.charityproject.payload.ChildrenDto;
 import uz.unicon.charityproject.payload.UserDto;
+import uz.unicon.charityproject.repository.ChildrenRepository;
 import uz.unicon.charityproject.repository.HelpTypeRepository;
 import uz.unicon.charityproject.repository.RoleRepository;
 import uz.unicon.charityproject.repository.UserRepository;
@@ -21,46 +21,63 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    final
-    UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    final
-    RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    final
-    HelpTypeRepository helpTypeRepository;
+    private final HelpTypeRepository helpTypeRepository;
 
-
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, HelpTypeRepository helpTypeRepository) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.helpTypeRepository = helpTypeRepository;
-    }
+    private final ChildrenRepository childrenRepository;
 
 
-/*    public ApiResponse add(UserDto userDto) {
+    public ApiResponse add(UserDto userDto) {
+        List<ChildrenDto> childrenDtoList = userDto.getChildrenDtoList();
         Optional<User> byUsername = userRepository.findByUsername(userDto.getUsername());
         if (byUsername.isEmpty()) {
-
-
             User user = new User();
             if (userDto.getIsAdmin()) {
-                user.setUsername(user.getUsername());
-                user.setPassword(user.getPassword());
-                user.setName(user.getName());
+                user.setUsername(userDto.getUsername());
+                user.setPassword(userDto.getPassword());
+                user.setName(userDto.getName());
                 user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
             if (userDto.getIsModerator()) {
-                user.setUsername(user.getUsername());
-                user.setPassword(user.getPassword());
-                user.setName(user.getName());
+                user.setUsername(userDto.getUsername());
+                user.setPassword(userDto.getPassword());
+                user.setName(userDto.getName());
                 user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).get()));
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
+            }
+
+            List<Children> childrenList = new ArrayList<>();
+
+            for (ChildrenDto childrenDto : childrenDtoList) {
+                Optional<Children> byNumberCertificateOfBirth = childrenRepository.findByNumberCertificateOfBirth(childrenDto.getNumberCertificateOfBirth());
+
+                if (byNumberCertificateOfBirth.isPresent()) {
+                    Children children = byNumberCertificateOfBirth.get();
+                    Boolean aBoolean = userRepository.existsUserByChildrenId(children.getId());
+                    System.out.println("aBoolean = " + aBoolean);
+//                    Optional<User> userByChildrenId = userRepository.getUserByChildrenId(children.getId());
+                    if (aBoolean)
+                        return new ApiResponse("Bu children biriktirilgan", false);
+                    else
+                        childrenList.add(byNumberCertificateOfBirth.get());
+
+                } else {
+                    Children children = new Children();
+                    children.setDateOfBirth(childrenDto.getDateOfBirth());
+                    children.setIdNumber(childrenDto.getIdNumber());
+                    children.setNumberCertificateOfBirth(childrenDto.getNumberCertificateOfBirth());
+                    Children save = childrenRepository.save(children);
+                    childrenList.add(save);
+                }
             }
 
             user.setName(userDto.getName());
@@ -82,13 +99,14 @@ public class UserService {
             user.setOtherInformation(userDto.getOtherInformation());
             user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
             // user.setOrganizationId();
+            user.setChildren(childrenList);
             User savedUser = userRepository.save(user);
             return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
 
         }
         return new ApiResponse("Bunday usernameli foydalanuvchi mavjud", false);
 
-    }*/
+    }
 
     public ApiResponse getAll() {
         List<User> userList = userRepository.findAll();
@@ -144,24 +162,6 @@ public class UserService {
 
             User user = new User();
 
-            if (userDto.getIsAdmin()) {
-                user.setUsername(user.getUsername());
-                user.setPassword(user.getPassword());
-                user.setName(user.getName());
-                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
-                User savedUser = userRepository.save(user);
-                return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
-            }
-            if (userDto.getIsModerator()) {
-                user.setUsername(user.getUsername());
-                user.setPassword(user.getPassword());
-                user.setName(user.getName());
-                user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).get()));
-                User savedUser = userRepository.save(user);
-                return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
-            }
-
-
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
             user.setBreadWinner(userDto.getBreadWinner());
@@ -194,7 +194,7 @@ public class UserService {
             return new ApiResponse("Foydalanuvchi topilmadi", false);
         }
         User user = optionalUser.get();
-        return new ApiResponse("So'ralgan foydalanuvchi", true,user);
+        return new ApiResponse("So'ralgan foydalanuvchi", true);
     }
 
     public ApiResponse addHelpUser(Integer id, UserDto userDto) {

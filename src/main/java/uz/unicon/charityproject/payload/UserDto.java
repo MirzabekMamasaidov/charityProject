@@ -60,4 +60,5 @@ public class UserDto {
 
     private List<Integer> roleIds;
 
+    private List<ChildrenDto> childrenDtoList;
 }
