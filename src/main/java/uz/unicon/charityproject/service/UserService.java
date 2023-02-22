@@ -73,9 +73,10 @@ public class UserService {
 
                 } else {
                     Children children = new Children();
+                    children.setName(childrenDto.getName());
                     children.setDateOfBirth(childrenDto.getDateOfBirth());
-                    children.setIdNumber(childrenDto.getIdNumber());
                     children.setNumberCertificateOfBirth(childrenDto.getNumberCertificateOfBirth());
+                    children.setIdNumber(childrenDto.getIdNumber());
                     Children save = childrenRepository.save(children);
                     childrenList.add(save);
                 }
