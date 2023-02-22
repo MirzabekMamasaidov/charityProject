@@ -58,7 +58,8 @@ public class UserService {
             List<Children> childrenList = new ArrayList<>();
 
             for (ChildrenDto childrenDto : childrenDtoList) {
-                Optional<Children> byNumberCertificateOfBirth = childrenRepository.findByNumberCertificateOfBirth(childrenDto.getNumberCertificateOfBirth());
+                Optional<Children> byNumberCertificateOfBirth =
+                        childrenRepository.findByNumberCertificateOfBirth(childrenDto.getNumberCertificateOfBirth());
 
                 if (byNumberCertificateOfBirth.isPresent()) {
                     Children children = byNumberCertificateOfBirth.get();
