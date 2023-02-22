@@ -25,14 +25,14 @@ public class HelpTypeController {
         this.helpTypeService = helpTypeService;
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @PostMapping()
     public HttpEntity<?> add(@RequestBody HelpTypeDto helpTypeDto){
         ApiResponse response = helpTypeService.add(helpTypeDto);
         return ResponseEntity.status(response.isSuccess()? HttpStatus.OK:HttpStatus.NO_CONTENT).body(response);
     }
 
-   @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN')")
+   @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @GetMapping
     public HttpEntity<?> getAll(){
         ApiResponse all = helpTypeService.getAll();
@@ -40,7 +40,7 @@ public class HelpTypeController {
     }
 
 
-   @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+   @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
    @GetMapping("/{id}")
     public HttpEntity<?> get(@PathVariable Integer id){
 
@@ -48,7 +48,7 @@ public class HelpTypeController {
         return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NO_CONTENT).body(response);
     }
 
-    @PreAuthorize(value = "hasAnyAuthority('SUPER_ADMIN','ADMIN')")
+    @PreAuthorize(value = "hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @PutMapping("/{id}")
     public HttpEntity<?> edit(@PathVariable Integer id, @RequestBody HelpTypeDto helpTypeDto){
         ApiResponse response = helpTypeService.edit(id, helpTypeDto);

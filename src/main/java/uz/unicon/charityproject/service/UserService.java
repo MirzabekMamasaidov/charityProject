@@ -223,4 +223,14 @@ public class UserService {
 
         return helpTypeList;
     }
+
+    public ApiResponse delete(Integer id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isEmpty()) {
+            return new ApiResponse("Foydalanuvchi topilmadi",false);
+        }
+        User user = optionalUser.get();
+        user.setActive(false);
+        return new ApiResponse("Foydalanuvchi o'chirildi",true);
+    }
 }

@@ -74,5 +74,11 @@ public class UserController {
         return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
     }
 
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN')")
+    @DeleteMapping("/{id}")
+    public HttpEntity<?> delete(@PathVariable Integer id){
+        ApiResponse response = userService.delete(id);
+        return ResponseEntity.status(response.isSuccess()?HttpStatus.OK:HttpStatus.NOT_FOUND).body(response);
+    }
 
 }
