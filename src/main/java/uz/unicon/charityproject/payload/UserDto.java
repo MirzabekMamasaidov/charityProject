@@ -30,9 +30,9 @@ public class UserDto {
 
     private String email;
 
-    private String region;
+    private Integer regionId;
 
-    private String county;
+    private Integer countyId;
 
     private String address;
 
@@ -50,7 +50,7 @@ public class UserDto {
 
     private Integer organizationId;
 
-    private Boolean isAdmin = false;
+     private Boolean isAdmin = false;
 
     private Boolean isModerator = false;
 

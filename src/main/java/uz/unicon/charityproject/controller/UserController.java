@@ -26,8 +26,8 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN','ROLE_ADMIN','MODERATOR')")
     @PostMapping
-    public HttpEntity<?> add(@RequestBody UserDto userDto){
-        ApiResponse response = userService.add(userDto);
+    public HttpEntity<?> add(@CurrentUser User currentUser, @RequestBody UserDto userDto){
+        ApiResponse response = userService.add(currentUser, userDto);
         return ResponseEntity.status(response.isSuccess()? HttpStatus.OK:HttpStatus.CONFLICT).body(response);
     }
 

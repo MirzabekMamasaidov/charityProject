@@ -10,10 +10,7 @@ import uz.unicon.charityproject.entity.enums.RoleName;
 import uz.unicon.charityproject.payload.ApiResponse;
 import uz.unicon.charityproject.payload.ChildrenDto;
 import uz.unicon.charityproject.payload.UserDto;
-import uz.unicon.charityproject.repository.ChildrenRepository;
-import uz.unicon.charityproject.repository.HelpTypeRepository;
-import uz.unicon.charityproject.repository.RoleRepository;
-import uz.unicon.charityproject.repository.UserRepository;
+import uz.unicon.charityproject.repository.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +29,12 @@ public class UserService {
 
     private final ChildrenRepository childrenRepository;
 
+    private final RegionRepository regionRepository;
 
-    public ApiResponse add(UserDto userDto) {
+    private final DistrictRepository districtRepository;
+
+
+    public ApiResponse add(User currentUser, UserDto userDto) {
         List<ChildrenDto> childrenDtoList = userDto.getChildrenDtoList();
         Optional<User> byUsername = userRepository.findByUsername(userDto.getUsername());
         if (byUsername.isEmpty()) {
@@ -43,6 +44,7 @@ public class UserService {
                 user.setPassword(userDto.getPassword());
                 user.setName(userDto.getName());
                 user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
+                user.setOrganizationId(currentUser.getOrganizationId());
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
@@ -51,6 +53,7 @@ public class UserService {
                 user.setPassword(userDto.getPassword());
                 user.setName(userDto.getName());
                 user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).get()));
+                user.setOrganizationId(currentUser.getOrganizationId());
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
@@ -82,6 +85,19 @@ public class UserService {
                 }
             }
 
+            Optional<Region> optionalRegion = regionRepository.findById(userDto.getRegionId());
+            if (optionalRegion.isEmpty()) {
+                return new ApiResponse("Viloyat tanlang",false);
+            }
+
+            Region region = optionalRegion.get();
+
+            Optional<District> optionalDistrict = districtRepository.getDistrictByRegionId(userDto.getRegionId());
+            if (optionalDistrict.isEmpty()) {
+                return new ApiResponse("Tuman tanlang",false);
+            }
+            District district = optionalDistrict.get();
+
             user.setName(userDto.getName());
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
@@ -90,8 +106,8 @@ public class UserService {
             user.setIdNumber(userDto.getIdNumber());
             user.setPhone(userDto.getPhone());
             user.setEmail(userDto.getEmail());
-            user.setRegion(userDto.getRegion());
-            user.setCounty(userDto.getCounty());
+            user.setRegion(region.getNameUz());
+            user.setCounty(district.getNameUz());
             user.setAddress(userDto.getAddress());
             user.setLocation(userDto.getLocation());
             user.setPrayer(userDto.getPrayer());
@@ -100,7 +116,7 @@ public class UserService {
             user.setNumberOfChild(userDto.getNumberOfChild());
             user.setOtherInformation(userDto.getOtherInformation());
             user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
-            // user.setOrganizationId();
+            user.setOrganizationId(currentUser.getOrganizationId());
             user.setChildren(childrenList);
             User savedUser = userRepository.save(user);
             return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
@@ -142,8 +158,8 @@ public class UserService {
         user.setIdNumber(userDto.getIdNumber());
         user.setPhone(userDto.getPhone());
         user.setEmail(userDto.getEmail());
-        user.setRegion(userDto.getRegion());
-        user.setCounty(userDto.getCounty());
+        //user.setRegion(userDto.getRegion());
+        //user.setCounty(userDto.getCounty());
         user.setAddress(userDto.getAddress());
         user.setLocation(userDto.getLocation());
         user.setPrayer(userDto.getPrayer());
@@ -171,8 +187,8 @@ public class UserService {
             user.setIdNumber(userDto.getIdNumber());
             user.setPhone(userDto.getPhone());
             user.setEmail(userDto.getEmail());
-            user.setRegion(userDto.getRegion());
-            user.setCounty(userDto.getCounty());
+            // user.setRegion(userDto.getRegion());
+            //user.setCounty(userDto.getCounty());
             user.setAddress(userDto.getAddress());
             user.setLocation(userDto.getLocation());
             user.setPrayer(userDto.getPrayer());
