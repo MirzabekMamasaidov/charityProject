@@ -92,11 +92,17 @@ public class UserService {
 
             Region region = optionalRegion.get();
 
-            Optional<District> optionalDistrict = districtRepository.getDistrictByRegionId(userDto.getRegionId());
+         /*   Optional<District> optionalDistrict = districtRepository.getDistrictByRegionId(userDto.getRegionId());
             if (optionalDistrict.isEmpty()) {
                 return new ApiResponse("Tuman tanlang",false);
             }
+            District district = optionalDistrict.get();*/
+            Optional<District> optionalDistrict = districtRepository.findById(userDto.getCountyId());
+            if (optionalDistrict.isEmpty()) {
+                return new ApiResponse("Bunday tuman topilmadi",false);
+            }
             District district = optionalDistrict.get();
+
 
             user.setName(userDto.getName());
             user.setUsername(userDto.getUsername());
