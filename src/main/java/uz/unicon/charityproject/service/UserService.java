@@ -33,18 +33,27 @@ public class UserService {
 
     private final DistrictRepository districtRepository;
 
+    private final OrganizationRepository organizationRepository;
+
 
     public ApiResponse add(User currentUser, UserDto userDto) {
         List<ChildrenDto> childrenDtoList = userDto.getChildrenDtoList();
         Optional<User> byUsername = userRepository.findByUsername(userDto.getUsername());
         if (byUsername.isEmpty()) {
             User user = new User();
+
+            Optional<Organization> optionalOrganization = organizationRepository.findById(userDto.getOrganizationId());
+            if (optionalOrganization.isEmpty()) {
+                return new ApiResponse("tashkilot id si berilmagan",false);
+            }
+            Organization organization = optionalOrganization.get();
+
             if (userDto.getIsAdmin()) {
                 user.setUsername(userDto.getUsername());
                 user.setPassword(userDto.getPassword());
                 user.setName(userDto.getName());
                 user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_ADMIN).get()));
-                user.setOrganizationId(currentUser.getOrganizationId());
+                user.setOrganizationId(organization);
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
@@ -53,7 +62,7 @@ public class UserService {
                 user.setPassword(userDto.getPassword());
                 user.setName(userDto.getName());
                 user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.MODERATOR).get()));
-                user.setOrganizationId(currentUser.getOrganizationId());
+                user.setOrganizationId(organization);
                 User savedUser = userRepository.save(user);
                 return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
             }
@@ -104,6 +113,8 @@ public class UserService {
             District district = optionalDistrict.get();
 
 
+
+
             user.setName(userDto.getName());
             user.setUsername(userDto.getUsername());
             user.setPassword(userDto.getPassword());
@@ -122,7 +133,7 @@ public class UserService {
             user.setNumberOfChild(userDto.getNumberOfChild());
             user.setOtherInformation(userDto.getOtherInformation());
             user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
-            user.setOrganizationId(currentUser.getOrganizationId());
+            user.setOrganizationId(organization);
             user.setChildren(childrenList);
             User savedUser = userRepository.save(user);
             return new ApiResponse("Muvaffaqiyatli qo'shildi", true, savedUser);
@@ -218,7 +229,7 @@ public class UserService {
             return new ApiResponse("Foydalanuvchi topilmadi", false);
         }
         User user = optionalUser.get();
-        return new ApiResponse("So'ralgan foydalanuvchi", true);
+        return new ApiResponse("So'ralgan foydalanuvchi", true,user);
     }
 
     public ApiResponse addHelpUser(Integer id, UserDto userDto) {
