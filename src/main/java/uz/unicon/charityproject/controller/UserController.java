@@ -66,12 +66,12 @@ public class UserController {
         return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
     }
 
-    @PostMapping("/addUser")
+   /* @PostMapping("/addUser")
     @PreAuthorize(value = "hasAnyRole('MODERATOR', 'ROLE_ADMIN','ROLE_SUPER_ADMIN')")
     public HttpEntity<?>  addUser(@CurrentUser User currentUser, @RequestBody UserDto userDto){
         ApiResponse response = userService.addUser(currentUser, userDto);
         return ResponseEntity.status(response.isSuccess()?HttpStatus.ACCEPTED:HttpStatus.CONFLICT).body(response);
-    }
+    }*/
 
     @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN')")
     @DeleteMapping("/{id}")

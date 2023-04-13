@@ -190,7 +190,7 @@ public class UserService {
         return new ApiResponse("Muvaffaqiyatli o'zgartirildi", true, editedUser);
     }
 
-    public ApiResponse addUser(User currentUser, UserDto userDto) {
+    /*public ApiResponse addUser(User currentUser, UserDto userDto) {
         Optional<User> byUsername = userRepository.findByUsername(userDto.getUsername());
         if (byUsername.isEmpty()) {
 
@@ -221,7 +221,7 @@ public class UserService {
         } else
             return new ApiResponse("Muvaffaqiyatli qo'shilmadi", false);
     }
-
+*/
     public ApiResponse getUserById(Integer id) {
 
         Optional<User> optionalUser = userRepository.findById(id);
