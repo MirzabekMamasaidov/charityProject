@@ -17,7 +17,7 @@ public class DistrictService {
 
     public ApiResponse getByRegionId(Integer regionId) {
 
-        List<District> districtList = districtRepository.getDistrictByRegionId(regionId);
+        List<District> districtList = districtRepository.getDistrictsByRegionId(regionId);
         return new ApiResponse("Tumanlar ro'yhati",true,districtList);
     }
 }

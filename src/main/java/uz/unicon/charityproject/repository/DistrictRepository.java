@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public interface DistrictRepository extends JpaRepository<District,Integer> {
 
-    @Query(value = "select districts from districts where region_id =:id ",nativeQuery = true)
-    List<District> getDistrictByRegionId(@Param("id")Integer id);
-
+  //  @Query(value ="select districts from districts where region_id=:id ",nativeQuery = true)
+    //List<District> getDistrictByRegionId(@Param("id")Integer id);
+  List<District> getDistrictsByRegionId(Integer region_id);
 
 
 
