@@ -25,7 +25,6 @@ public class AuthController {
     AuthenticationManager authenticationManager;
     @Autowired
     AuthService authService;
-
     @Autowired
     JwtProvider jwtProvider;
 
