@@ -270,6 +270,7 @@ public class UserService {
         }
         User user = optionalUser.get();
         user.setActive(false);
+        userRepository.save(user);
         return new ApiResponse("Foydalanuvchi o'chirildi",true);
     }
 }
