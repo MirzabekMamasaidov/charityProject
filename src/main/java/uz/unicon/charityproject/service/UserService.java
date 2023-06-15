@@ -12,10 +12,7 @@ import uz.unicon.charityproject.payload.ChildrenDto;
 import uz.unicon.charityproject.payload.UserDto;
 import uz.unicon.charityproject.repository.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -175,7 +172,7 @@ public class UserService {
         }
         User user = optionalUser.get();
         user.setUsername(userDto.getUsername());
-        user.setUsername(userDto.getUsername());
+        user.setName(userDto.getName());
         user.setBreadWinner(userDto.getBreadWinner());
         user.setBirthOfYear(userDto.getBirthOfYear());
         user.setIdNumber(userDto.getIdNumber());
@@ -190,7 +187,21 @@ public class UserService {
         user.setDeed(userDto.getDeed());
         user.setNumberOfChild(userDto.getNumberOfChild());
         user.setOtherInformation(userDto.getOtherInformation());
-        user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
+
+        //user.setRoles(Set.of(roleRepository.findByRoleName(RoleName.ROLE_USER).get()));
+
+
+
+
+
+
+
+
+        Role role = roleRepository.findByRoleName(RoleName.ROLE_USER).get();
+        Set<Role> roleSet = new HashSet<>();
+        if (roleSet.add(role)) {
+            user.setRoles(roleSet);
+        }
         User editedUser = userRepository.save(user);
 
         return new ApiResponse("Muvaffaqiyatli o'zgartirildi", true, editedUser);
